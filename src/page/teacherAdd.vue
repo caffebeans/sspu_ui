@@ -3,13 +3,12 @@
         <head-top></head-top>
         <el-row style="margin-top: 20px;">
             <el-col :span="14" :offset="4">
-
                 <header class="form_header">老师添加</header>
                 <el-form :model="teacherForm" :rules="teacherrules" ref="teacherForm" label-width="110px" class="form food_form">
                     <el-form-item label="老师姓名" prop="name">
                         <el-input v-model="teacherForm.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="老师工号" prop="name">
+                    <el-form-item label="老师工号" prop="id">
                         <el-input v-model="teacherForm.id"></el-input>
                     </el-form-item>
                     <el-form-item label="手机号码" prop="phone">
@@ -22,17 +21,17 @@
                     <el-form-item label="简介" prop="des">
                         <el-input v-model="teacherForm.des"></el-input>
                     </el-form-item>
-<!--                    <el-form-item label="上传图片">-->
-<!--                        <el-upload-->
-<!--                            class="avatar-uploader"-->
-<!--                            :action="baseUrl + '/v1/addimg/food'"-->
-<!--                            :show-file-list="false"-->
-<!--                            :on-success="uploadImg"-->
-<!--                            :before-upload="beforeImgUpload">-->
-<!--                            <img v-if="teacherForm.image_path" :src="baseImgPath + teacherForm.image_path" class="avatar">-->
-<!--                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-<!--                        </el-upload>-->
-<!--                    </el-form-item>-->
+                    <el-form-item label="上传老师图片">
+                        <el-upload
+                            class="avatar-uploader"
+                            :action="imgurl"
+                            :show-file-list="false"
+                            :on-success="uploadImg"
+                            :before-upload="beforeImgUpload">
+                            <img v-if="teacherForm.img" :src="teacherForm.img" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </el-form-item>
                     <el-form-item label="姓别">
                         <el-radio v-model="teacherForm.gender" label="男">男</el-radio>
                         <el-radio v-model="teacherForm.gender" label="女">女</el-radio>
@@ -49,28 +48,20 @@
 </template>
 
 <script>
-
 	import headTop from '@/components/headTop'
-	import {getCategory, addCategory, addTeacher} from '@/api/getData'
-	import {baseUrl, baseImgPath} from '@/config/env'
+	import {baseUrl,imgUrl} from '@/config/path'
 	const axios = require('axios');
+
 	export default {
 		data(){
 			return {
-				baseUrl,
-				baseImgPath,
+				imgurl:baseUrl+"/file/upload",
 				restaurant_id: 1,
-				categoryForm: {
-					categoryList: [],
-					categorySelect: '',
-					name: '',
-					description: '',
-				},
 				teacherForm: {
 					id:'',
 					name: '',
 					des: '',
-					image_path: '',
+					img: '',
 					city: '',
                     gender:'',
 					radio: ''
@@ -78,22 +69,8 @@
 				teacherrules: {
 					name: [
 						{ required: true, message: '请输入老师姓名', trigger: 'blur' },
-
 					],
 				},
-				showAddCategory: false,
-				foodSpecs: 'one',
-				dialogFormVisible: false,
-				specsForm: {
-					specs: '',
-					packing_fee: 0,
-					price: 20,
-				},
-				specsFormrules: {
-					specs: [
-						{ required: true, message: '请输入规格', trigger: 'blur' },
-					],
-				}
 			}
 		},
 		components: {
@@ -129,46 +106,11 @@
 					console.log(err)
 				}
 			},
-			addCategoryFun(){
-				this.showAddCategory = !this.showAddCategory;
-			},
-			submitcategoryForm(categoryForm) {
-				this.$refs[categoryForm].validate(async (valid) => {
-					if (valid) {
-						const params = {
-							name: this.categoryForm.name,
-							description: this.categoryForm.description,
-							restaurant_id: this.restaurant_id,
-						}
-						try{
-							const result = await addCategory(params);
-							if (result.status == 1) {
-								this.initData();
-								this.categoryForm.name = '';
-								this.categoryForm.description = '';
-								this.showAddCategory = false;
-								this.$message({
-									type: 'success',
-									message: '添加成功'
-								});
-							}
-						}catch(err){
-							console.log(err)
-						}
-					} else {
-						this.$notify.error({
-							title: '错误',
-							message: '请检查输入是否正确',
-							offset: 100
-						});
-						return false;
-					}
-				});
-			},
 			uploadImg(res, file) {
-				if (res.status == 1) {
-					this.teacherForm.image_path = res.image_path;
+				if (res.code == 200) {
+					this.teacherForm.img = res.data;
 				}else{
+					console.log(res.code)
 					this.$message.error('上传图片失败！');
 				}
 			},
@@ -184,13 +126,7 @@
 				}
 				return isRightType && isLt2M;
 			},
-			addspecs(){
-				this.teacherForm.specs.push({...this.specsForm});
-				this.specsForm.specs = '';
-				this.specsForm.packing_fee = 0;
-				this.specsForm.price = 20;
-				this.dialogFormVisible = false;
-			},
+
 			handleDelete(index){
 				this.teacherForm.specs.splice(index, 1);
 			},
@@ -204,17 +140,26 @@
 			},
 			async addTeacher(teacherForm){
 				    let that=this;
+				    console.log(that.teacherForm)
 					axios({
 						method: 'post',
-						url: 'http://localhost:8888/teacher/insert',
+						url:  baseUrl+'/teacher/',
 						data: that.teacherForm
 					}).then(function (response){
-
-
+						if (response.data.code==200){
+							that.$message({
+								type: 'success',
+								message: '添加老师成功'
+							});
+						}
+						else{
+							that.$message({
+								type: 'warning',
+								message: '添加失败，工号可能已经存在'
+							});
+						}
 
                     });
-
-
 
 			}
 
