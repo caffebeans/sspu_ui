@@ -72,7 +72,7 @@
 
 <script>
 	import headTop from '../components/headTop'
-	import {getUserList, getUserCount} from '@/api/getData'
+    import {baseUrl} from "../config/path";
 
 	const axios = require('axios');
 
@@ -110,7 +110,7 @@
 				let that=this;
 				axios({
 					method: 'get',
-					url: 'http://localhost:8888/course/listAll'
+					url: baseUrl+'/course/'
 				})
 					.then(function (response) {
 						if (response.data.code == "200") {
@@ -142,7 +142,7 @@
 				}).then(() => {
 					axios({
 						method: 'delete',
-						url: 'http://localhost:8888/teacher/del?id='+row.id,
+						url: baseUrl+'/course/'+row.id,
 					}).then(function (response){
 						if (response.data.code==200){
 							that.$message({

@@ -25,8 +25,9 @@
 </template>
 
 <script>
-	import {login, getAdminInfo} from '@/api/getData'
+
 	import {mapActions, mapState} from 'vuex'
+    import {baseUrl} from "../config/path";
 
 	const axios = require('axios');
 
@@ -61,7 +62,7 @@
 			...mapActions(['getAdminData']),
 			async submitForm(formName) {
                   let that=this;
-				axios.post('http://localhost:8888/login', {
+				axios.post(baseUrl+'/login', {
 					username: this.loginForm.username,
 					password: this.loginForm.password
 				}).then(function (response) {

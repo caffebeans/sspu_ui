@@ -12,7 +12,7 @@
                 </el-table-column>
                 <el-table-column
                     property="id"
-                    label="工号">
+                    label="学号">
                 </el-table-column>
                 <el-table-column
                     property="name"
@@ -36,7 +36,7 @@
                         <el-button
                             size="mini"
                             type="Success"
-                            @click="addTeacher(scope.$index, scope.row)">添加老师
+                            @click="addTeacher(scope.$index, scope.row)">添加学生
                         </el-button>
                         <el-button
                             size="mini"
@@ -89,7 +89,7 @@
 				let that=this;
 				axios({
 					method: 'get',
-					url: baseUrl+'/teacher/'
+					url: baseUrl+'/student/'
 				})
 					.then(function (response) {
 						if (response.data.code == "200") {
@@ -109,7 +109,7 @@
 				this.getUsers()
 			},
 			async addTeacher(index, row){
-				this.$router.push('/teacherAdd');
+				this.$router.push('/studentAdd');
 
 			},
 

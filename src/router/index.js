@@ -22,8 +22,13 @@ const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'a
 const sendMessage = r => require.ensure([], () => r(require('@/page/sendMessage')), 'sendMessage');
 const explain = r => require.ensure([], () => r(require('@/page/explain')), 'explain');
 
+
 const teacherList = r => require.ensure([], () => r(require('@/page/teacherList')), 'teacherList');
 const teacherAdd = r => require.ensure([], () => r(require('@/page/teacherAdd')), 'teacherAdd');
+const courseList = r => require.ensure([], () => r(require('@/page/courseList')), 'courseList');
+const courseAdd = r => require.ensure([], () => r(require('@/page/courseAdd')), 'courseAdd');
+const studentList = r => require.ensure([], () => r(require('@/page/studentList')), 'studentList');
+const studentAdd = r => require.ensure([], () => r(require('@/page/studentAdd')), 'studentAdd');
 
 const routes = [
     {
@@ -62,7 +67,23 @@ const routes = [
             path: '/userList',
             component: userList,
             meta: ['数据管理', '用户列表'],
+        },{
+            path: '/courseList',
+            component: courseList,
+            meta: ['课程管理', '课程列表'],
         }, {
+            path: '/courseAdd',
+            component: courseAdd,
+            meta: ['课程管理', '课程添加'],
+        }, {
+                path: '/studentList',
+                component: studentList,
+                meta: ['学生管理', '学生列表'],
+            }, {
+                path: '/studentAdd',
+                component: studentAdd,
+                meta: ['学生管理', '学生添加'],
+            }, {
             path: '/shopList',
             component: shopList,
             meta: ['数据管理', '商家列表'],

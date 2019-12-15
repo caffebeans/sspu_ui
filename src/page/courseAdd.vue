@@ -18,17 +18,7 @@
                     <el-form-item label="课程时长" prop="description">
                         <el-input v-model="courseForm.period"></el-input>
                     </el-form-item>
-                    <!--                    <el-form-item label="上传老师图片">-->
-                    <!--                        <el-upload-->
-                    <!--                            class="avatar-uploader"-->
-                    <!--                            :action="url"-->
-                    <!--                            :show-file-list="false"-->
-                    <!--                            :on-success="uploadImg"-->
-                    <!--                            :before-upload="beforeImgUpload">-->
-                    <!--                            <img v-if="courseForm.image_path" :src="baseImgPath + courseForm.image_path" class="avatar">-->
-                    <!--                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-                    <!--                        </el-upload>-->
-                    <!--                    </el-form-item>-->
+
 
                     <el-row v-if="foodSpecs == 'one'">
                         <el-form-item label="课程价格">
@@ -49,32 +39,18 @@
 
 <script>
 	import headTop from '@/components/headTop'
-	import {baseUrl, baseImgPath} from '@/config/env'
-	import pathUrl from '@/config/path'
-
+    import {baseUrl} from "../config/path";
 	const axios = require('axios');
-
 	export default {
 		data() {
 			return {
-				url: "http://localhost:8888/upload",
-				baseUrl,
-				baseImgPath,
-				restaurant_id: 1,
-				categoryForm: {
-					categoryList: [],
-					categorySelect: '',
-					name: '',
-					description: '',
-				},
 				courseForm: {
 					period: '',
 					name: '',
-					//	image_path: '',
 					type: '',
 					des: '',
 					price: 99,
-					currentPrice: 87
+					currentPrice: 49
 
 				},
 				foodrules: {
@@ -85,97 +61,22 @@
 				showAddCategory: false,
 				foodSpecs: 'one',
 				dialogFormVisible: false,
-				specsForm: {
-					specs: '',
-					packing_fee: 0,
-					price: 20,
-				},
-				specsFormrules: {
-					specs: [
-						{required: true, message: '请输入规格', trigger: 'blur'},
-					],
-				}
 			}
-		},
-		components: {
-			headTop,
 		},
 		created() {
 
-
-			if (this.$route.query.restaurant_id) {
-				this.restaurant_id = this.$route.query.restaurant_id;
-			} else {
-				this.restaurant_id = Math.ceil(Math.random() * 10);
-
-			}
-			this.initData();
 		},
 		computed: {
-			selectValue: function () {
-				return this.categoryForm.categoryList[this.categoryForm.categorySelect] || {}
-			}
+
 		},
 		methods: {
-			async initData() {
-				try {
-					const result = await getCategory(this.restaurant_id);
-					if (result.status == 1) {
-						result.category_list.map((item, index) => {
-							item.value = index;
-							item.label = item.name;
-						})
-						this.categoryForm.categoryList = result.category_list;
-					} else {
-						console.log(result)
-					}
-				} catch (err) {
-					console.log(err)
-				}
-			},
-			uploadImg(res, file) {
-				if (res.status == 200) {
-					this.courseForm.image_path = res.image_path;
-				} else {
-					//	this.$message.error('上传图片失败！');
-					this.$message.error('有问题！');
-				}
-			},
-			beforeImgUpload(file) {
-				const isRightType = (file.type === 'image/jpeg') || (file.type === 'image/png');
-				const isLt2M = file.size / 1024 / 1024 < 2;
 
-				if (!isRightType) {
-					this.$message.error('上传头像图片只能是 JPG 格式!');
-				}
-				if (!isLt2M) {
-					this.$message.error('上传头像图片大小不能超过 2MB!');
-				}
-				return isRightType && isLt2M;
-			},
-			addspecs() {
-				this.courseForm.specs.push({...this.specsForm});
-				this.specsForm.specs = '';
-				this.specsForm.packing_fee = 0;
-				this.specsForm.price = 20;
-				this.dialogFormVisible = false;
-			},
-			handleDelete(index) {
-				this.courseForm.specs.splice(index, 1);
-			},
-			tableRowClassName(row, index) {
-				if (index === 1) {
-					return 'info-row';
-				} else if (index === 3) {
-					return 'positive-row';
-				}
-				return '';
-			}, addcourse(courseForm) {
+		addcourse(courseForm) {
 
 				let that = this;
 				axios({
 					method: 'post',
-					url: 'http://localhost:8888/course/insertCourse',
+					url: baseUrl+"/course/",
 					data: that.courseForm
 				}).then(function (response) {
 					console.log(response.data.code);
