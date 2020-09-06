@@ -15,20 +15,18 @@
                         <el-menu-item index="addGoods">添加商品</el-menu-item>
                     </el-submenu>
 					<el-submenu index="4">
-                    <template slot="title"><i class="el-icon-plus"></i>课程管理</template>
-                    <el-menu-item index="courseList">课程列表</el-menu-item>
-                    <el-menu-item index="courseAdd">课程添加</el-menu-item>
+                    <template slot="title"><i class="el-icon-plus"></i>公众号管理</template>
+                    <el-menu-item index="wxUserList">用户列表</el-menu-item>
+                    <el-menu-item index="wxUserMessage">发送消息</el-menu-item>
                 </el-submenu>
                     <el-submenu index="5">
-                        <template slot="title"><i class="el-icon-star-on"></i>学生管理</template>
-                        <el-menu-item index="studentList">学生列表</el-menu-item>
-                        <el-menu-item index="studentAdd">学生添加</el-menu-item>
+                        <template slot="title"><i class="el-icon-star-on"></i>消息管理</template>
+                        <el-menu-item index="messageList">消息模板列表</el-menu-item>
+                        <el-menu-item index="messageAdd">添加消息模板</el-menu-item>
+                        <el-menu-item index="messageEdit">编辑消息模板</el-menu-item>
                     </el-submenu>
-<!--					<el-submenu index="5">-->
-<!--						<template slot="title"><i class="el-icon-star-on"></i>图表</template>-->
-<!--						<el-menu-item index="visitor">用户分布</el-menu-item>-->
-<!--						&lt;!&ndash; <el-menu-item index="newMember">用户数据</el-menu-item> &ndash;&gt;-->
-<!--					</el-submenu>-->
+
+
 					<el-submenu index="6">
 						<template slot="title"><i class="el-icon-edit"></i>编辑</template>
 						<!-- <el-menu-item index="uploadImg">上传图片</el-menu-item> -->
@@ -37,7 +35,7 @@
 					<el-submenu index="7">
 						<template slot="title"><i class="el-icon-setting"></i>系统管理</template>
 						<el-menu-item index="adminSet">管理员设置</el-menu-item>
-						<!-- <el-menu-item index="sendMessage">发送通知</el-menu-item> -->
+						<!-- <el-menu-item index="wxUserMessage">发送通知</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="8">
 						<template slot="title"><i class="el-icon-warning"></i>说明</template>

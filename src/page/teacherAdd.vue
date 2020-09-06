@@ -4,22 +4,22 @@
         <el-row style="margin-top: 20px;">
             <el-col :span="14" :offset="4">
                 <header class="form_header">老师添加</header>
-                <el-form :model="teacherForm" :rules="teacherrules" ref="teacherForm" label-width="110px" class="form food_form">
+                <el-form :model="messageForm" :rules="teacherrules" ref="messageForm" label-width="110px" class="form food_form">
                     <el-form-item label="老师姓名" prop="name">
-                        <el-input v-model="teacherForm.name"></el-input>
+                        <el-input v-model="messageForm.name"></el-input>
                     </el-form-item>
                     <el-form-item label="老师工号" prop="id">
-                        <el-input v-model="teacherForm.id"></el-input>
+                        <el-input v-model="messageForm.id"></el-input>
                     </el-form-item>
                     <el-form-item label="手机号码" prop="phone">
-                        <el-input v-model="teacherForm.phone"></el-input>
+                        <el-input v-model="messageForm.phone"></el-input>
                     </el-form-item>
                     <el-form-item label="家庭住址" prop="city">
-                        <el-input v-model="teacherForm.city"></el-input>
+                        <el-input v-model="messageForm.city"></el-input>
                     </el-form-item>
 
                     <el-form-item label="简介" prop="des">
-                        <el-input v-model="teacherForm.des"></el-input>
+                        <el-input v-model="messageForm.des"></el-input>
                     </el-form-item>
                     <el-form-item label="上传老师图片">
                         <el-upload
@@ -28,17 +28,17 @@
                             :show-file-list="false"
                             :on-success="uploadImg"
                             :before-upload="beforeImgUpload">
-                            <img v-if="teacherForm.img" :src="teacherForm.img" class="avatar">
+                            <img v-if="messageForm.img" :src="messageForm.img" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </el-form-item>
                     <el-form-item label="姓别">
-                        <el-radio v-model="teacherForm.gender" label="男">男</el-radio>
-                        <el-radio v-model="teacherForm.gender" label="女">女</el-radio>
+                        <el-radio v-model="messageForm.gender" label="男">男</el-radio>
+                        <el-radio v-model="messageForm.gender" label="女">女</el-radio>
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button type="primary" @click="addTeacher('teacherForm')">确认添加</el-button>
+                        <el-button type="primary" @click="addTeacher('messageForm')">确认添加</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -57,7 +57,7 @@
 			return {
 				imgurl:baseUrl+"/file/upload",
 				restaurant_id: 1,
-				teacherForm: {
+				messageForm: {
 					id:'',
 					name: '',
 					des: '',
@@ -108,7 +108,7 @@
 			},
 			uploadImg(res, file) {
 				if (res.code == 200) {
-					this.teacherForm.img = res.data;
+					this.messageForm.img = res.data;
 				}else{
 					console.log(res.code)
 					this.$message.error('上传图片失败！');
@@ -128,7 +128,7 @@
 			},
 
 			handleDelete(index){
-				this.teacherForm.specs.splice(index, 1);
+				this.messageForm.specs.splice(index, 1);
 			},
 			tableRowClassName(row, index) {
 				if (index === 1) {
@@ -138,13 +138,13 @@
 				}
 				return '';
 			},
-			async addTeacher(teacherForm){
+			async addTeacher(messageForm){
 				    let that=this;
-				    console.log(that.teacherForm)
+				    console.log(that.messageForm)
 					axios({
 						method: 'post',
 						url:  baseUrl+'/teacher/',
-						data: that.teacherForm
+						data: that.messageForm
 					}).then(function (response){
 						if (response.data.code==200){
 							that.$message({

@@ -1,12 +1,12 @@
 <template>
     <div class="fillcontain">
-        sendMessage
+        wxUserMessage
     </div>
 </template>
 
 <script>
     export default {
-    	
+
     }
 </script>
 

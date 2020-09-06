@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
 Vue.use(Router)
 
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
@@ -9,7 +10,6 @@ const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manag
 const home = r => require.ensure([], () => r(require('@/page/home')), 'home');
 const addShop = r => require.ensure([], () => r(require('@/page/addShop')), 'addShop');
 const addGoods = r => require.ensure([], () => r(require('@/page/addGoods')), 'addGoods');
-const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
 const shopList = r => require.ensure([], () => r(require('@/page/shopList')), 'shopList');
 const foodList = r => require.ensure([], () => r(require('@/page/foodList')), 'foodList');
 const orderList = r => require.ensure([], () => r(require('@/page/orderList')), 'orderList');
@@ -19,16 +19,15 @@ const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 
 const uploadImg = r => require.ensure([], () => r(require('@/page/uploadImg')), 'uploadImg');
 const vueEdit = r => require.ensure([], () => r(require('@/page/vueEdit')), 'vueEdit');
 const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'adminSet');
-const sendMessage = r => require.ensure([], () => r(require('@/page/sendMessage')), 'sendMessage');
 const explain = r => require.ensure([], () => r(require('@/page/explain')), 'explain');
-
-
 const teacherList = r => require.ensure([], () => r(require('@/page/teacherList')), 'teacherList');
 const teacherAdd = r => require.ensure([], () => r(require('@/page/teacherAdd')), 'teacherAdd');
-const courseList = r => require.ensure([], () => r(require('@/page/courseList')), 'courseList');
-const courseAdd = r => require.ensure([], () => r(require('@/page/courseAdd')), 'courseAdd');
-const studentList = r => require.ensure([], () => r(require('@/page/studentList')), 'studentList');
-const studentAdd = r => require.ensure([], () => r(require('@/page/studentAdd')), 'studentAdd');
+const wxUserList = r => require.ensure([], () => r(require('@/page/wxUserList')), 'wxUserList');
+const wxUserMessage = r => require.ensure([], () => r(require('@/page/wxUserMessage')), 'wxUserMessage');
+const messageList = r => require.ensure([], () => r(require('@/page/messageList')), 'messageList');
+const messageAdd = r => require.ensure([], () => r(require('@/page/messageAdd')), 'messageAdd');
+const messageEdit = r => require.ensure([], () => r(require('@/page/messageEdit')), 'messageEdit');
+
 
 const routes = [
     {
@@ -64,26 +63,26 @@ const routes = [
             component: addGoods,
             meta: ['添加数据', '添加商品'],
         }, {
-            path: '/userList',
-            component: userList,
-            meta: ['数据管理', '用户列表'],
-        },{
-            path: '/courseList',
-            component: courseList,
-            meta: ['课程管理', '课程列表'],
+            path: '/wxUserList',
+            component: wxUserList,
+            meta: ['公众号管理', '关注列表'],
         }, {
-            path: '/courseAdd',
-            component: courseAdd,
-            meta: ['课程管理', '课程添加'],
+            path: '/wxUserMessage',
+            component: wxUserMessage,
+            meta: ['公众号管理', '发送消息'],
         }, {
-                path: '/studentList',
-                component: studentList,
-                meta: ['学生管理', '学生列表'],
+                path: '/messageList',
+                component: messageList,
+                meta: ['消息管理', '消息模板'],
             }, {
-                path: '/studentAdd',
-                component: studentAdd,
-                meta: ['学生管理', '学生添加'],
-            }, {
+                path: '/messageAdd',
+                component: messageAdd,
+                meta: ['消息管理', '添加消息模板'],
+            },{
+            path: '/messageEdit',
+            component: messageEdit,
+            meta: ['消息管理', '编辑消息模板'],
+        }, {
             path: '/shopList',
             component: shopList,
             meta: ['数据管理', '商家列表'],
@@ -120,8 +119,8 @@ const routes = [
             component: adminSet,
             meta: ['设置', '管理员设置'],
         }, {
-            path: '/sendMessage',
-            component: sendMessage,
+            path: '/wxUserMessage',
+            component: wxUserMessage,
             meta: ['设置', '发送通知'],
         }, {
             path: '/explain',

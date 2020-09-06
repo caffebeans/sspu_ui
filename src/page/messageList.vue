@@ -4,44 +4,50 @@
         <div class="table_container">
             <el-table
                 :data="tableData"
-                :fit="true"
+                :fit="true"s
                 highlight-current-row
                 style="width: 100%">
                 <el-table-column
                     type="index">
                 </el-table-column>
                 <el-table-column
-                    property="id"
-                    label="学号">
-                </el-table-column>
-                <el-table-column
                     property="name"
-                    label="姓名">
+                    label="模板名称">
                 </el-table-column>
                 <el-table-column
-                    property="gender"
-                    label="姓别">
+                    property="content"
+                    label="内容">
                 </el-table-column>
                 <el-table-column
-                    property="city"
-                    label="家庭住址">
+                    property="footer"
+                    label="结束语">
+                </el-table-column>
+                <el-table-column
+                    property="createUserName"
+                    label="创建人员">
                 </el-table-column>
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button
                             size="mini"
+                            type="text"
                             @click="handleEdit(scope.$index, scope.row)">编辑
                         </el-button>
                         <el-button
                             size="mini"
-                            type="Success"
-                            @click="addTeacher(scope.$index, scope.row)">添加学生
+                            type="text"
+                            @click="messageAdd(scope.$index, scope.row)">添加
+                        </el-button>
+                        <el-button
+                            size="mini"
+                            type="text"
+                            @click="handleDelete(scope.$index, scope.row)">查看
                         </el-button>
                         <el-button
                             size="mini"
                             type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除
+                            @click="addTeacher(scope.$index, scope.row)">删除
                         </el-button>
                     </template>
                 </el-table-column>
@@ -62,7 +68,7 @@
 
 <script>
 	import headTop from '../components/headTop'
-	import {getUserList, getUserCount} from '@/api/getData'
+	import {getwxUserList, getUserCount} from '@/api/getData'
 	import {baseUrl} from "../config/path";
 
 	const axios = require('axios');
@@ -89,7 +95,7 @@
 				let that=this;
 				axios({
 					method: 'get',
-					url: baseUrl+'/student/'
+					url: baseUrl+'/messageTemplate/list'
 				})
 					.then(function (response) {
 						if (response.data.code == "200") {
@@ -103,14 +109,20 @@
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
 			},
-			handleCurrentChange(val) {
+
+            handleEdit(index, row) {
+                console.log(index, row);
+                this.$router.push({path: '/messageEdit', query: {messageTmeplate:"123"}})
+
+            },
+
+            handleCurrentChange(val) {
 				this.currentPage = val;
 				this.offset = (val - 1) * this.limit;
 				this.getUsers()
 			},
-			async addTeacher(index, row){
-				this.$router.push('/studentAdd');
-
+			async messageAdd(index, row){
+				this.$router.push('/messageAdd');
 			},
 
 		},

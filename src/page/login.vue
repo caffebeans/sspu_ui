@@ -62,7 +62,7 @@
 			...mapActions(['getAdminData']),
 			async submitForm(formName) {
                   let that=this;
-				axios.post(baseUrl+'/login', {
+				axios.post(baseUrl+'/admin/login', {
 					username: this.loginForm.username,
 					password: this.loginForm.password
 				}).then(function (response) {
@@ -70,6 +70,10 @@
 					if (response.data.code == "200") {
 						that.$router.push('/manage');
 					}
+					else {
+
+					    alert("用户或者密码")
+                    }
 				})
 					.catch(function (error) {
 						console.log(error);

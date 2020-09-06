@@ -62,7 +62,7 @@
 
 <script>
 	import headTop from '../components/headTop'
-	import {getUserList, getUserCount} from '@/api/getData'
+	import {getwxUserList, getUserCount} from '@/api/getData'
 	import {baseUrl} from "../config/path";
 
 	const axios = require('axios');
@@ -100,6 +100,8 @@
 					});
 
 			},
+
+
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
 			},

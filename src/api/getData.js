@@ -189,7 +189,7 @@ export const deleteFood = food_id => fetch('/shopping/v2/food/' + food_id, {}, '
  * 获取用户列表
  */
 
-export const getUserList = data => fetch('/v1/users/list', data);
+export const getwxUserList = data => fetch('/v1/users/list', data);
 
 /**
  * 获取用户数量
