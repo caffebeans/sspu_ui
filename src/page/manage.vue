@@ -44,10 +44,10 @@
 				</el-menu>
 			</el-col>
 			<el-col :span="20" style="height: 100%;overflow: auto;">
-				<keep-alive>
-				    <router-view></router-view>
-				</keep-alive>
-			</el-col>
+<!--				<keep-alive>-->
+<!--				</keep-alive>-->
+                <router-view></router-view>
+            </el-col>
 		</el-row>
   	</div>
 </template>

@@ -60,42 +60,17 @@ export default {
             return this.categoryForm.categoryList[this.categoryForm.categorySelect]||{}
         }
     },
+
+
     methods: {
-        async initData(){
-                 //  this.messageForm=this.$route.query.messageTemplate;
+        async initData() {
+
             console.log("ssssssssss");
-            console.log($route.query.messageTemplate);
-        },
-        async addTeacher(messageForm){
-            let that=this;
-            console.log(that.messageForm)
-            axios({
-                method: 'post',
-                url:  baseUrl+'/messageTemplate/add',
-                data: that.messageForm
-            }).then(function (response){
-                if (response.data.code==200){
-                    that.$message({
-                        type: 'success',
-                        message: '添加模板成功'
-                    });
-                }
-                else{
-                    that.$message({
-                        type: 'warning',
-                        message: '添加失败，工号可能已经存在'
-                    });
-                }
-
-            });
-
+            console.log(this.$route.query.messageTemplate);
         }
 
-
-
-
-
     }
+
 }
 </script>
 

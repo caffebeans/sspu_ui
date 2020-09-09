@@ -47,7 +47,7 @@
                         <el-button
                             size="mini"
                             type="danger"
-                            @click="addTeacher(scope.$index, scope.row)">删除
+                            @click="messageDel(scope.$index, scope.row)">删除
                         </el-button>
                     </template>
                 </el-table-column>
@@ -112,7 +112,27 @@
 
             handleEdit(index, row) {
                 console.log(index, row);
-                this.$router.push({path: '/messageEdit', query: {messageTmeplate:"123"}})
+                this.$router.push({path: '/messageEdit', query: {messageTmeplate:"1233"}})
+
+            },
+
+            messageDel(index,row){
+
+                var id=row.id;
+                console.log(typeof(id));
+                let that=this;
+                axios({
+                    method: 'get',
+                    url: baseUrl+'/messageTemplate/del',
+                    data:{"id":id}
+                })
+                    .then(function (response) {
+                        if (response.data.code == "200") {
+                            that.tableData=response.data.data;
+                            console.log(response.data)
+
+                        }
+                    });
 
             },
 

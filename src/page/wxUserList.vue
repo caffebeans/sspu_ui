@@ -1,6 +1,6 @@
 <template>
     <div class="fillcontain">
-        <head-top></head-top>
+<!--        <head-top></head-top>-->
         <div class="table_container">
             <el-table
                 :data="tableData"
@@ -98,31 +98,23 @@ export default {
         this.initData();
     },
     methods: {
+
         async initData() {
-            let that=this;
+            let that = this;
             axios({
                 method: 'get',
-                url: baseUrl+'/wx/user/list'
+                url: baseUrl + '/wx/user/list'
             })
                 .then(function (response) {
                     if (response.data.code == "200") {
-                        that.tableData=response.data.data;
+                        that.tableData = response.data.data;
                         console.log(response.data)
 
                     }
                 });
-
         },
 
-        formatSex(row, column, cellValue) {
-             if(cellValue =="1"){
-                return '男';
-             }if (cellValue == "2"){
-                return '女';
-            }if(cellValue==0){
-                 return '未知'
-            }
-        },
+
 
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
@@ -132,13 +124,29 @@ export default {
             this.offset = (val - 1) * this.limit;
             this.getUsers()
         },
-        async addTeacher(index, row){
-            this.$router.push('/teacherAdd');
+        async handleEdit(index, row){
+            this.$router.push('/messageEdit');
 
         },
+
+        formatSex(){
+
+        },
+
+
         async sendMessage(index, row){
 
-            this.$router.push('/wxUserMessage');
+
+             console.log(row)
+
+
+           // this.$route.push('/wxUserMessage');
+
+
+           this.$router.push({path: '/wxUserMessage', query: {messageTmeplate:row}})
+          //  this.$router.push({path: '/wxUserMessage', query: {messageTmeplate:row}})
+
+
 
         },
 

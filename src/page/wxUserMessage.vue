@@ -5,40 +5,22 @@
             <el-col :span="14" :offset="4">
                 <header class="form_header">发送消息</header>
                 <el-form :model="messageForm" :rules="teacherrules" ref="messageForm" label-width="110px" class="form food_form">
-                    <el-form-item label="老师姓名" prop="name">
-                        <el-input v-model="messageForm.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="老师工号" prop="id">
-                        <el-input v-model="messageForm.id"></el-input>
-                    </el-form-item>
-                    <el-form-item label="手机号码" prop="phone">
-                        <el-input v-model="messageForm.phone"></el-input>
-                    </el-form-item>
-                    <el-form-item label="家庭住址" prop="city">
-                        <el-input v-model="messageForm.city"></el-input>
+                    <el-form-item label="发送用户" prop="nickname">
+                        <el-input v-model="messageForm.nickname"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="简介" prop="des">
+
+                    <el-form-item label="发送内容" prop="content">
+                        <el-input v-model="messageForm.content"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="结束语" prop="footer">
                         <el-input v-model="messageForm.des"></el-input>
                     </el-form-item>
-                    <el-form-item label="上传老师图片">
-                        <el-upload
-                            class="avatar-uploader"
-                            :action="imgurl"
-                            :show-file-list="false"
-                            :on-success="uploadImg"
-                            :before-upload="beforeImgUpload">
-                            <img v-if="messageForm.img" :src="messageForm.img" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </el-form-item>
-                    <el-form-item label="姓别">
-                        <el-radio v-model="messageForm.gender" label="男">男</el-radio>
-                        <el-radio v-model="messageForm.gender" label="女">女</el-radio>
-                    </el-form-item>
+
 
                     <el-form-item>
-                        <el-button type="primary" @click="addTeacher('messageForm')">确认添加</el-button>
+                        <el-button type="primary" @click="send('messageForm')">确认发送</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -46,6 +28,8 @@
         </el-row>
     </div>
 </template>
+
+
 
 <script>
 import headTop from '@/components/headTop'
@@ -58,13 +42,9 @@ export default {
             imgurl:baseUrl+"/file/upload",
             restaurant_id: 1,
             messageForm: {
-                id:'',
-                name: '',
-                des: '',
-                img: '',
-                city: '',
-                gender:'',
-                radio: ''
+                footer:'123',
+                nickname: '12233',
+                content: '444'
             },
             teacherrules: {
                 name: [
@@ -76,86 +56,36 @@ export default {
     components: {
         headTop,
     },
+
     created(){
-        if (this.$route.query.restaurant_id) {
-            this.restaurant_id = this.$route.query.restaurant_id;
-        }else{
-            this.restaurant_id = Math.ceil(Math.random()*10);
-        }
+        console.log('created')
         this.initData();
-    },
-    computed: {
-        selectValue: function (){
-            return this.categoryForm.categoryList[this.categoryForm.categorySelect]||{}
-        }
     },
     methods: {
         async initData(){
-            try{
-                const result = await getCategory(this.restaurant_id);
-                if (result.status == 1) {
-                    result.category_list.map((item, index) => {
-                        item.value = index;
-                        item.label = item.name;
-                    })
-                    this.categoryForm.categoryList = result.category_list;
-                }else{
-                    console.log(result)
-                }
-            }catch(err){
-                console.log(err)
-            }
-        },
-        uploadImg(res, file) {
-            if (res.code == 200) {
-                this.messageForm.img = res.data;
-            }else{
-                console.log(res.code)
-                this.$message.error('上传图片失败！');
-            }
-        },
-        beforeImgUpload(file) {
-            const isRightType = (file.type === 'image/jpeg') || (file.type === 'image/png');
-            const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isRightType) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isRightType && isLt2M;
+           this.messageForm=this.$route.query.messageTmeplate;
+
         },
 
-        handleDelete(index){
-            this.messageForm.specs.splice(index, 1);
-        },
-        tableRowClassName(row, index) {
-            if (index === 1) {
-                return 'info-row';
-            } else if (index === 3) {
-                return 'positive-row';
-            }
-            return '';
-        },
-        async addTeacher(messageForm){
+        async send(messageForm){
             let that=this;
-            console.log(that.messageForm)
+            console.log(baseUrl+'/wxx/portal/sendText')
             axios({
                 method: 'post',
-                url:  baseUrl+'/teacher/',
+                url:  baseUrl+'/wxx/portal/sendText',
                 data: that.messageForm
             }).then(function (response){
                 if (response.data.code==200){
                     that.$message({
                         type: 'success',
-                        message: '添加老师成功'
+                        message: '发送成功'
                     });
                 }
                 else{
                     that.$message({
                         type: 'warning',
-                        message: '添加失败，工号可能已经存在'
+                        message: '添加失败'
                     });
                 }
 
