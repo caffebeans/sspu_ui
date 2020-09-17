@@ -15,7 +15,7 @@
                     </el-form-item>
 
                     <el-form-item label="结束语" prop="footer">
-                        <el-input v-model="messageForm.des"></el-input>
+                        <el-input v-model="messageForm.footer"></el-input>
                     </el-form-item>
 
 
@@ -39,18 +39,11 @@ const axios = require('axios');
 export default {
     data(){
         return {
-            imgurl:baseUrl+"/file/upload",
-            restaurant_id: 1,
             messageForm: {
-                footer:'123',
-                nickname: '12233',
-                content: '444'
-            },
-            teacherrules: {
-                name: [
-                    { required: true, message: '请输入老师姓名', trigger: 'blur' },
-                ],
-            },
+                footer:'第二工业大学工学部',
+                nickname: '张三',
+                content: '同学，请及时上报你每天的安全信息'
+            }
         }
     },
     components: {
@@ -64,7 +57,14 @@ export default {
     methods: {
         async initData(){
 
-           this.messageForm=this.$route.query.messageTmeplate;
+
+            if (this.$route.query.messageTmeplate!=null){
+
+                this.messageForm=this.$route.query.messageTmeplate;
+                this.messageForm.content='同学，请及时上报你每天的安全信息';
+                this.messageForm.footer='第二工业大学工学部';
+            }
+
 
         },
 
